@@ -1,0 +1,5 @@
+name: Atmosphere
+main: net.skyhcf.atmosphere.bukkit.AtmosphereBukkit
+author: Atmosphere Games
+version: 2.0.0
+depend: [qLib, LunarClientAPI]

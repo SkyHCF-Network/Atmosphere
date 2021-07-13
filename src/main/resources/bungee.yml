@@ -1,0 +1,4 @@
+name: Atmosphere
+main: net.skyhcf.atmosphere.bungee.AtmosphereBungee
+author: Atmosphere Games
+version: 2.0.0
