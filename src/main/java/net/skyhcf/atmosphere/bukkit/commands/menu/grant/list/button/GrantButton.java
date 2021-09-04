@@ -42,7 +42,6 @@ public class GrantButton extends Button {
         description.add("&7&m" + BukkitChat.LINE);
         description.add("&eRank&7: &r" + grant.getRank().getColor() + grant.getRank().getDisplayName());
         description.add("&eAdded By&7: &r" + SharedAPI.formatName(grant.getAddedBy()));
-        description.add("&eAdded Server&7: &c" + grant.getAddedServer().getName());
         description.add("&eAdded Reason&7: &c" + grant.getReason());
         if(grant.getDuration() != Long.MAX_VALUE && grant.isActive()) {
             description.add("&eTime Remaining&7: &c" + grant.getRemainingText());

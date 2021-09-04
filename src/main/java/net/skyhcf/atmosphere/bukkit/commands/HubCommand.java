@@ -10,56 +10,25 @@ import net.skyhcf.atmosphere.shared.profile.Profile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import static java.lang.Thread.sleep;
+
 public class HubCommand {
 
     @Command(names = {"hub"}, permission = "")
-    public static void hub(Player player, @Param(name = "hub id", defaultValue = "default") String targetServer){
-        Profile profile = AtmosphereShared.getInstance().getProfileManager().getProfile(player.getUniqueId());
-        boolean offline = false;
-        if(targetServer.equalsIgnoreCase("default")){
-            if(SharedAPI.getProfile(player.getUniqueId()).getHighestGrantOnScope(SharedAPI.getServer(Bukkit.getServerName())).getRank().isStaff()) {
-                if (SharedAPI.getServer("Hub-Restricted") == null || !SharedAPI.getServer("Hub-Restricted").isOnline()) {
-                    offline = true;
-                    targetServer = "Hub-01";
-                } else {
-                    targetServer = "Hub-Restricted";
-                }
-            }
-        }else{
-            targetServer = "Hub-01";
-        }
-        if(targetServer.equalsIgnoreCase("hub-restricted")){
-            if(!profile.getHighestGrant().getRank().isStaff()){
-                player.sendMessage(BukkitChat.format("&cYou must be &eTrial Mod &crank or higher to join &fHub-Restricted&c."));
+    public static void hub(Player player, @Param(name = "hub id", defaultValue = "default") String targetServer) throws InterruptedException {
+        if (SharedAPI.getServer("Hub-01").isOnline()) {
+            if (!player.getServer().getServerName().equalsIgnoreCase("Hub-01")) {
+                targetServer = "Hub-01";
+                player.sendMessage(BukkitChat.format("&6Finding an open Hub server..."));
+                sleep(500);
+                player.sendMessage(BukkitChat.format("&6Sending you to &fHub-01&6..."));
+                BungeeUtils.send(player, targetServer);
+                player.sendMessage(BukkitChat.format("&6Connected to &fHub-01&6."));
                 return;
-            }
-            targetServer = "Hub-Restricted";
-        }
-        String first = targetServer;
-        switch(targetServer.toLowerCase()){
-            case "hub-01":
-            case "hub-02":
-            case "hub-03":
-            case "hub-04":
-            case "hub-05" :
-            case "hub-restricted": {
-                break;
-            } default: {
-                targetServer = "CANNOT_JOIN_THIS_SERVER";
-            }
-        }
-        if(targetServer.equals("CANNOT_JOIN_THIS_SERVER")){
-            player.sendMessage(BukkitChat.format("&cNo hub with id &r" + first + "&r &cfound on your current proxy."));
+                    }
+            player.sendMessage(BukkitChat.format("&cYou are already connected to a Hub."));
             return;
-        }
-        if(offline){
-            player.sendMessage(BukkitChat.format("&cThe &fHub-Restricted &cserver is offline, so you have been connected to a fallback server."));
-        }
-        player.sendMessage(BukkitChat.format("&6You are now being connected to &f" + targetServer + "&6."));
-        if(profile.getHighestGrant().getRank().isStaff()){
-            player.sendMessage(BukkitChat.format("&6You may visit a specific hub by typing &f/hub <hub id>&6."));
-        }
-        BungeeUtils.send(player, targetServer);
-    }
-
+                }
+        player.sendMessage(BukkitChat.format("&cNo Hubs are currently online. Try again later."));
+            }
 }

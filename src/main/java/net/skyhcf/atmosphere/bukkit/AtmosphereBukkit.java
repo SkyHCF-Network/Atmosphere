@@ -19,6 +19,10 @@ import net.skyhcf.atmosphere.shared.rank.Rank;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public class AtmosphereBukkit extends JavaPlugin {
 
     @Getter private static AtmosphereBukkit instance;
@@ -27,12 +31,13 @@ public class AtmosphereBukkit extends JavaPlugin {
     @Getter private BukkitLicense bukkitLicense;
     @Getter private net.skyhcf.atmosphere.shared.server.Server skyServer;
 
+    public static List<UUID> PluginOwner = new ArrayList<>();
 
 
     @Override
     public void onEnable() {
         instance = this;
-
+        PluginOwner.add(UUID.fromString("116d2b9e-9f58-4457-aa19-215408826a7d"));
         this.atmosphereShared = new AtmosphereShared();
 
         getServer().getScheduler().runTaskTimer(this, atmosphereShared::refreshHeartbeat, 10, 10);
